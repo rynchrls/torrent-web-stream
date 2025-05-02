@@ -55,7 +55,7 @@
         }
 
         try {
-          videoSource.src = `http://192.168.1.16:3001/torrent?torrentId=${link}`;
+          videoSource.src = `http://localhost:3001/torrent?torrentId=${link}`;
           // Optional: explicitly load
           videoPlayer.load();
 
@@ -72,7 +72,7 @@
 
       cleanBtn.addEventListener("click", async () => {
         try {
-          await fetch("http://192.168.1.16:3001/destroy", {
+          await fetch("http://localhost:3001/destroy", {
             method: "POST",
           });
           videoSource.src = "";
