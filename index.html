@@ -55,7 +55,7 @@
         }
 
         try {
-          videoSource.src = `http://localhost:3001/torrent?torrentId=${link}`;
+          videoSource.src = `https://torrent-web-stream.onrender.com/torrent?torrentId=${link}`;
           // Optional: explicitly load
           videoPlayer.load();
 
@@ -72,7 +72,7 @@
 
       cleanBtn.addEventListener("click", async () => {
         try {
-          await fetch("http://localhost:3001/destroy", {
+          await fetch("https://torrent-web-stream.onrender.com/destroy", {
             method: "POST",
           });
           videoSource.src = "";
