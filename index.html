@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Torrent Video Stream</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 20px;
+      }
+      input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+      }
+      button {
+        padding: 10px 20px;
+        margin-right: 10px;
+      }
+      video {
+        margin-top: 20px;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Streaming Torrent Video</h1>
+
+    <input
+      type="text"
+      id="torrentLink"
+      placeholder="Paste magnet or torrent link here"
+    />
+    <button id="startBtn">Stream</button>
+    <button id="cleanBtn">Clean</button>
+
+    <video id="videoPlayer" width="720" controls>
+      <source id="videoSource" src="" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+
+    <script>
+      const startBtn = document.getElementById("startBtn");
+      const cleanBtn = document.getElementById("cleanBtn");
+      const videoPlayer = document.getElementById("videoPlayer");
+      const videoSource = document.getElementById("videoSource");
+      const torrentLinkInput = document.getElementById("torrentLink");
+
+      startBtn.addEventListener("click", async () => {
+        const link = torrentLinkInput.value.trim();
+        if (!link) {
+          alert("Please paste a torrent or magnet link");
+          return;
+        }
+
+        try {
+          videoSource.src = `http://localhost:3001/torrent?torrentId=${link}`;
+          videoPlayer.load();
+          videoPlayer.play();
+        } catch (err) {
+          alert("Failed to start streaming");
+          console.error(err);
+        }
+      });
+
+      cleanBtn.addEventListener("click", async () => {
+        try {
+          await fetch("http://localhost:3001/destroy", { method: "POST" });
+          videoSource.src = "";
+          videoPlayer.load();
+        } catch (err) {
+          alert("Failed to clean stream");
+          console.error(err);
+        }
+      });
+    </script>
+  </body>
+</html>
